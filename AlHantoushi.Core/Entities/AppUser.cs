@@ -5,6 +5,6 @@ namespace AlHantoushi.Core.Entities
 {
     public class AppUser : IdentityUser
     {
-        public string DisplayName { get; set; }
+        public string? DisplayName { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using AlHantoushi.API.Extensions;
+using AlHantoushi.Core.Entities;
 using AlHantoushi.Infrastructure.Data;
 using AlHantoushi.Infrastructure.Services.EmailService;
 
@@ -15,6 +16,10 @@ builder.Services.AddSwaggerGen();
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddSingleton<EmailServices>();
+
+builder.Services.AddAuthentication();
+builder.Services.AddIdentityApiEndpoints<AppUser>()
+    .AddEntityFrameworkStores<StoreContext>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -30,7 +35,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapIdentityApi<AppUser>();
 try
 {
     using var scope = app.Services.CreateScope();
